@@ -107,7 +107,7 @@ License: GPL2
 		if ( !current_user_can('level_10') )
 		die(__('Cheatin&#8217; uh?', WANG_SIZE_MEDIA_DOMAIN ));
 		echo '<div class="wrap">';
-		echo '<h2>' . __( 'Image Size' ) . '</h2>';
+		echo '<h2>' . __( 'File Size Generator' ) . '</h2>';
 		$action = isset($_GET['action']) ? $_GET['action'] : 'show';
 			switch ( $action ) {
 				case "size":
@@ -143,8 +143,8 @@ License: GPL2
 									update_post_meta( $att_id, '_filesize', $file_size ); ?>
 									<tr>
 										<td><?php echo $filename_only; ?></td>
-										<td><?php echo $type; ?></td>
 										<td><?php echo $file_size_format; ?></td>
+										<td><?php echo $type; ?></td>
 										<td>Done!</td>
 									</tr><?php
 								} else {
