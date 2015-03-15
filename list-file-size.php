@@ -34,18 +34,24 @@ License: GPL2
 	}
 	function wang_size_media( $column ) {
     	$column['filesize']  = _x( 'File Size', WANG_SIZE_MEDIA_DOMAIN );
+    	$column['mimetype']  = _x( 'MiME Type', WANG_SIZE_MEDIA_DOMAIN );
 		return $column;
 	}
 	function wang_size_media_content( $column_name, $post_id ){
 		$filesize = size_format( get_post_meta( $post_id, '_filesize', true ) );
+		$filemime = get_post_mime_type( $post_id );
 		if ( $filesize ){
 			if( 'filesize' == $column_name ) echo $filesize;
 			} else { ?>
 				<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', WANG_SIZE_MEDIA_DOMAIN ); ?></a>
 			<?php }
+		if ( $filemime ){
+			if( 'mimetype' == $column_name ) echo $filemime;
+			}
 	}
 	function wang_size_media_content_sortable( $columns ){
     	$columns['filesize']  = '_filesize';
+    	//$column['mimetype'] =
 		return $columns;
 	}
 	function wang_size_media_metadata_generate( $image_data, $att_id ){
@@ -60,10 +66,6 @@ License: GPL2
 				update_post_meta( $att_id, '_filesize', 'N/D' );
 			}
 		return $image_data;
-	}
-	function wang_size_media_columns_sortable( $columns ){
-    	$columns['filesize'] = '_filesize';
-		return $columns;
 	}
 	function wang_size_media_columns_do_sort(&$query){
     	global $current_screen;
