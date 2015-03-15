@@ -23,7 +23,7 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-	define( 'MEDIA_FILES_TOOLS', 'beta 2' );
+	define( 'MEDIA_FILES_TOOLS_VERSION', 'beta 2' );
 	define( 'MEDIA_FILES_TOOLS', 'media-file-tools') ;
 	add_action('init', 'media_files_tools_init');
 	function media_files_tools_init() {
