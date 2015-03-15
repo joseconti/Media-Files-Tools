@@ -179,4 +179,27 @@ License: GPL2
 				break;
 			}
 		}
+// Add Featured Image to post list
+
+	function media_files_tools_post_list( $columns ) {
+    	$columns['featured_image'] = _x( 'Featured Image', MEDIA_FILES_TOOLS );
+		return $columns;
+	}
+	add_filter('manage_posts_columns', 'media_files_tools_post_list');
+	function media_files_tools_post_content($column_name, $post_ID) {
+		if ($column_name == 'featured_image') {
+	    	$post_featured_image = wp_get_attachment_image( $post_ID, array( 80, 60 ), true );
+	    	if ($post_featured_image ) {
+		    	$url = includes_url();
+				$defaultimageurl = $url . 'images/media/default.png';
+				if ( $post_featured_image = $defaultimageurl ){
+					echo $post_featured_image;
+					echo '<img src="' . $post_featured_image . '" />';
+				} else {
+					echo '<img src="' . $post_featured_image . '" />';
+				}
+		    }
+		}
+	}
+	add_action('manage_posts_custom_column', 'media_files_tools_post_content', 10, 2);
 ?>
