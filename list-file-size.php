@@ -59,7 +59,7 @@ License: GPL2
 			} else {
 				update_post_meta( $att_id, '_filesize', 'N/D' );
 			}
-		return $attachment_id;
+		return $image_data;
 	}
 	function wang_size_media_columns_sortable( $columns ){
     	$columns['filesize'] = '_filesize';
