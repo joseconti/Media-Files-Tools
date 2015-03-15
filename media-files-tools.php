@@ -24,18 +24,17 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 	define( 'MEDIA_FILES_TOOLS_VERSION', 'beta 2' );
-	define( 'MEDIA_FILES_TOOLS', 'media-file-tools') ;
 	add_action('init', 'media_files_tools_init');
 	function media_files_tools_init() {
 		if (function_exists('load_plugin_textdomain')) {
 			$plugin_dir = basename(dirname(__FILE__));
-			load_plugin_textdomain( MEDIA_FILES_TOOLS, false, $plugin_dir . "/languages/" );
+			load_plugin_textdomain( 'media-file-tools', false, $plugin_dir . "/languages/" );
 		}
 	}
-	function media_files_tools( $column ) {
-    	$column['filesize']  = _x( 'File Size', MEDIA_FILES_TOOLS );
-    	$column['mimetype']  = _x( 'MiME Type', MEDIA_FILES_TOOLS );
-		return $column;
+	function media_files_tools( $columns ) {
+    	$columns['filesize']  = __( 'File Size', 'media-file-tools' );
+    	$columns['mimetype']  = __( 'MiME Type', 'media-file-tools' );
+		return $columns;
 	}
 	function media_files_tools_content( $column_name, $post_id ){
 		$filesize = size_format( get_post_meta( $post_id, '_filesize', true ) );
@@ -44,14 +43,14 @@ License: GPL2
 			if( 'filesize' == $column_name ) echo $filesize;
 			} else {
 				if( 'filesize' == $column_name ) { ?>
-				<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', MEDIA_FILES_TOOLS ); ?></a>
+				<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', 'media-file-tools' ); ?></a>
 			<?php }
 			}
 		if ( $filemime ){
 			if( 'mimetype' == $column_name ) echo $filemime;
 			} else {
 				if( 'mimetype' == $column_name ){ ?>
-					<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', MEDIA_FILES_TOOLS ); ?></a>
+					<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', 'media-file-tools' ); ?></a>
 			<?php }
 				}
 	}
@@ -115,9 +114,9 @@ License: GPL2
 	function media_files_tools_wizard(){
 		global $wpdb;
 		if ( !current_user_can('level_10') )
-		die(__('Cheatin&#8217; uh?', MEDIA_FILES_TOOLS ));
+		die(__('Cheatin&#8217; uh?', 'media-file-tools' ));
 		echo '<div class="wrap">';
-		echo '<h2>' . __( 'File Size Generator' ) . '</h2>';
+		echo '<h2>' . __( 'File Size Generator', 'media-file-tools' ) . '</h2>';
 		$action = isset($_GET['action']) ? $_GET['action'] : 'show';
 			switch ( $action ) {
 				case "size":
@@ -125,18 +124,18 @@ License: GPL2
 					<table class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e( 'File', MEDIA_FILES_TOOLS ) ?></th>
-								<th><?php _e( 'Size', MEDIA_FILES_TOOLS ) ?></th>
-								<th><?php _e( 'MIME Type', MEDIA_FILES_TOOLS ) ?></th>
-								<th><?php _e( 'State', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'File', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'Size', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'MIME Type', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'State', 'media-file-tools' ) ?></th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
-								<th><?php _e( 'File', MEDIA_FILES_TOOLS ) ?></th>
-								<th><?php _e( 'Size', MEDIA_FILES_TOOLS ) ?></th>
-								<th><?php _e( 'MIME Type', MEDIA_FILES_TOOLS ) ?></th>
-								<th><?php _e( 'State', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'File', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'Size', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'MIME Type', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'State', 'media-file-tools' ) ?></th>
 							</tr>
 						</tfoot>
 						<tbody><?php
@@ -174,15 +173,15 @@ License: GPL2
 				break;
 				case 'show':
 				default: ?>
-					<p><?php _e( 'Update all files size can take a while.', MEDIA_FILES_TOOLS ); ?></p>
-					<p><a class="button" href="admin.php?page=wang_filesize&action=size"><?php _e( 'Get Files Size', MEDIA_FILES_TOOLS ); ?></a></p><?php
+					<p><?php _e( 'Update all files size can take a while.', 'media-file-tools' ); ?></p>
+					<p><a class="button" href="admin.php?page=wang_filesize&action=size"><?php _e( 'Get Files Size', 'media-file-tools' ); ?></a></p><?php
 				break;
 			}
 		}
 // Add Featured Image to post list
 
 	function media_files_tools_post_list( $columns ) {
-    	$columns['featured_image'] = _x( 'Featured Image', MEDIA_FILES_TOOLS );
+    	$columns['featured_image'] = __( 'Featured Image', 'media-file-tools' );
 		return $columns;
 	}
 	add_filter('manage_posts_columns', 'media_files_tools_post_list');
@@ -195,16 +194,16 @@ License: GPL2
 	    		$post_featured_image = wp_get_attachment_image( $post_thumbnail_id, array( 80, 60 ), true );
 	    		echo $post_featured_image;
 	    		$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post_ID ) );
-				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Change featured image', MEDIA_FILES_TOOLS ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
-				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Change featured image', MEDIA_FILES_TOOLS ) );
+				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Change featured image', 'media-file-tools' ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Change featured image', 'media-file-tools' ) );
 				echo '<img src="' . $defaultimageurl . '" />';
 				echo $content;
 	    	}else{
 		    	$url = includes_url();
 				$defaultimageurl = $url . 'images/media/default.png';
 				$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post_ID ) );
-				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image', MEDIA_FILES_TOOLS ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
-				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Set featured image', MEDIA_FILES_TOOLS ) );
+				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image', 'media-file-tools' ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Set featured image', 'media-file-tools' ) );
 				echo '<img src="' . $defaultimageurl . '" />';
 				echo $content;
 	    	}
