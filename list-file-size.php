@@ -39,31 +39,41 @@ License: GPL2
 	}
 	function wang_size_media_content( $column_name, $post_id ){
 		$filesize = size_format( get_post_meta( $post_id, '_filesize', true ) );
-		$filemime = get_post_mime_type( $post_id );
+		$filemime = get_post_meta( $post_id, '_filesmimetype', true );
 		if ( $filesize ){
 			if( 'filesize' == $column_name ) echo $filesize;
-			} else { ?>
+			} else {
+				if( 'filesize' == $column_name ) { ?>
 				<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', WANG_SIZE_MEDIA_DOMAIN ); ?></a>
 			<?php }
+			}
 		if ( $filemime ){
 			if( 'mimetype' == $column_name ) echo $filemime;
-			}
+			} else {
+				if( 'mimetype' == $column_name ){ ?>
+					<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', WANG_SIZE_MEDIA_DOMAIN ); ?></a>
+			<?php }
+				}
 	}
 	function wang_size_media_content_sortable( $columns ){
     	$columns['filesize']  = '_filesize';
-    	//$column['mimetype'] =
+    	$columns['mimetype'] = '_filesmimetype';
 		return $columns;
 	}
 	function wang_size_media_metadata_generate( $image_data, $att_id ){
-		$file  = get_attached_file( $att_id );
-		$file_size = false;
-		$file_size = filesize( $file );
-
-		if ( ! empty( $file_size ) ) {
-				//echo size_format( $file_size );
+       		$file  = get_attached_file( $att_id );
+	   		$file_size = false;
+	   		$file_size = filesize( $file );
+	   		$file_mime_type = get_post_mime_type( $att_id );
+	   		if ( ! empty( $file_size ) ) {
 				update_post_meta( $att_id, '_filesize', $file_size );
 			} else {
 				update_post_meta( $att_id, '_filesize', 'N/D' );
+			}
+			if ( ! empty( $file_mime_type ) ) {
+				update_post_meta( $att_id, '_filesmimetype', $file_mime_type );
+			} else {
+				update_post_meta( $att_id, '_filesmimetype', 'N/D' );
 			}
 		return $image_data;
 	}
@@ -78,18 +88,15 @@ License: GPL2
 			$query->set('orderby', 'meta_value_num');
     	}
 	}
-	function wang_size_media_generate_all_size(){
-   		global $wpdb;
-   		$attachments = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment'" );
-   		foreach( $attachments as $att ){
-       		$file  = get_attached_file( $att->ID );
-	   		$file_size = false;
-	   		$file_size = filesize( $file );
-	   		if ( ! empty( $file_size ) ) {
-				update_post_meta( $att_id, '_filesize', $file_size );
-			} else {
-				update_post_meta( $att_id, '_filesize', 'N/D' );
-			}
+	function wang_size_media_mime_columns_do_sort(&$query){
+    	global $current_screen;
+
+		if( 'upload' != $current_screen->id ) return;
+		$is_mimetype = (isset( $_GET['orderby'] ) && '_filesmimetype' == $_GET['orderby']);
+		if( !$is_mimetype ) return;
+		if ( '_filesmimetype' == $_GET['orderby'] ){
+        	$query->set('meta_key', '_filesmimetype');
+			$query->set('orderby', 'meta_value');
     	}
 	}
 	if( is_admin() ){
@@ -98,6 +105,7 @@ License: GPL2
 		add_filter( 'manage_upload_sortable_columns', 'wang_size_media_content_sortable' );
 		add_filter( 'wp_generate_attachment_metadata', 'wang_size_media_metadata_generate', 10, 2);
 		add_action( 'pre_get_posts', 'wang_size_media_columns_do_sort' );
+		add_action( 'pre_get_posts', 'wang_size_media_mime_columns_do_sort' );
 	}
 
 	function wang_size_media_menu() {
@@ -136,24 +144,27 @@ License: GPL2
 								$att_id = $att->ID;
 								$file  = get_attached_file( $att_id );
 								$filename_only = basename( get_attached_file( $att_id ) );
-								$type = get_post_mime_type( $att_id );
+								$mimetype = get_post_mime_type( $att_id );
 								$file_size = false;
 								$file_size = filesize( $file );
 								$file_size_format = size_format( $file_size );
 
 								if ( ! empty( $file_size ) ) {
-									update_post_meta( $att_id, '_filesize', $file_size ); ?>
+									update_post_meta( $att_id, '_filesize', $file_size );
+									update_post_meta( $att_id, '_filesmimetype', $mimetype ); ?>
 									<tr>
 										<td><?php echo $filename_only; ?></td>
 										<td><?php echo $file_size_format; ?></td>
-										<td><?php echo $type; ?></td>
+										<td><?php echo $mimetype; ?></td>
 										<td>Done!</td>
 									</tr><?php
 								} else {
-									update_post_meta( $att_id, '_filesize', 'N/D' ); ?>
+									update_post_meta( $att_id, '_filesize', 'N/D' );
+									update_post_meta( $att_id, '_filesmimetype', $mimetype ); ?>
 									<tr>
 										<td><?php echo $filename_only; ?></td>
 										<td><?php echo 'Error'; ?></td>
+										<td><?php echo $mimetype; ?></td>
 										<td>Done!</td>
 									</tr><?php
 									}
