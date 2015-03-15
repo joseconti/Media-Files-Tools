@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Media File Size
+Plugin Name: Media Files Tool
 Plugin URI: http://URI_De_La_Página_Que_Describe_el_Plugin_y_Actualizaciones
 Description: Una breve descripción del plugin.
 Version: beta 2
@@ -23,44 +23,44 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-	define( 'WANG_SIZE_MEDIA', 'beta 2' );
-	define( 'WANG_SIZE_MEDIA_DOMAIN', 'wang_size_media') ;
-	add_action('init', 'wang_size_media_init');
-	function wang_size_media_init() {
+	define( 'MEDIA_FILES_TOOLS', 'beta 2' );
+	define( 'MEDIA_FILES_TOOLS', 'media-file-tools') ;
+	add_action('init', 'media_files_tools_init');
+	function media_files_tools_init() {
 		if (function_exists('load_plugin_textdomain')) {
 			$plugin_dir = basename(dirname(__FILE__));
-			load_plugin_textdomain(WANG_SIZE_MEDIA_DOMAIN, false, $plugin_dir . "/languages/" );
+			load_plugin_textdomain( MEDIA_FILES_TOOLS, false, $plugin_dir . "/languages/" );
 		}
 	}
-	function wang_size_media( $column ) {
-    	$column['filesize']  = _x( 'File Size', WANG_SIZE_MEDIA_DOMAIN );
-    	$column['mimetype']  = _x( 'MiME Type', WANG_SIZE_MEDIA_DOMAIN );
+	function media_files_tools( $column ) {
+    	$column['filesize']  = _x( 'File Size', MEDIA_FILES_TOOLS );
+    	$column['mimetype']  = _x( 'MiME Type', MEDIA_FILES_TOOLS );
 		return $column;
 	}
-	function wang_size_media_content( $column_name, $post_id ){
+	function media_files_tools_content( $column_name, $post_id ){
 		$filesize = size_format( get_post_meta( $post_id, '_filesize', true ) );
 		$filemime = get_post_meta( $post_id, '_filesmimetype', true );
 		if ( $filesize ){
 			if( 'filesize' == $column_name ) echo $filesize;
 			} else {
 				if( 'filesize' == $column_name ) { ?>
-				<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', WANG_SIZE_MEDIA_DOMAIN ); ?></a>
+				<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', MEDIA_FILES_TOOLS ); ?></a>
 			<?php }
 			}
 		if ( $filemime ){
 			if( 'mimetype' == $column_name ) echo $filemime;
 			} else {
 				if( 'mimetype' == $column_name ){ ?>
-					<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', WANG_SIZE_MEDIA_DOMAIN ); ?></a>
+					<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', MEDIA_FILES_TOOLS ); ?></a>
 			<?php }
 				}
 	}
-	function wang_size_media_content_sortable( $columns ){
+	function media_files_tools_content_sortable( $columns ){
     	$columns['filesize']  = '_filesize';
     	$columns['mimetype'] = '_filesmimetype';
 		return $columns;
 	}
-	function wang_size_media_metadata_generate( $image_data, $att_id ){
+	function media_files_tools_metadata_generate( $image_data, $att_id ){
        		$file  = get_attached_file( $att_id );
 	   		$file_size = false;
 	   		$file_size = filesize( $file );
@@ -77,7 +77,7 @@ License: GPL2
 			}
 		return $image_data;
 	}
-	function wang_size_media_columns_do_sort(&$query){
+	function media_files_tools_columns_do_sort(&$query){
     	global $current_screen;
 
 		if( 'upload' != $current_screen->id ) return;
@@ -88,7 +88,7 @@ License: GPL2
 			$query->set('orderby', 'meta_value_num');
     	}
 	}
-	function wang_size_media_mime_columns_do_sort(&$query){
+	function media_files_tools_mime_columns_do_sort(&$query){
     	global $current_screen;
 
 		if( 'upload' != $current_screen->id ) return;
@@ -100,22 +100,22 @@ License: GPL2
     	}
 	}
 	if( is_admin() ){
-		add_filter( 'manage_media_custom_column', 'wang_size_media_content', 10, 2);
-		add_filter( 'manage_upload_columns', 'wang_size_media' );
-		add_filter( 'manage_upload_sortable_columns', 'wang_size_media_content_sortable' );
-		add_filter( 'wp_generate_attachment_metadata', 'wang_size_media_metadata_generate', 10, 2);
-		add_action( 'pre_get_posts', 'wang_size_media_columns_do_sort' );
-		add_action( 'pre_get_posts', 'wang_size_media_mime_columns_do_sort' );
+		add_filter( 'manage_media_custom_column', 'media_files_tools_content', 10, 2);
+		add_filter( 'manage_upload_columns', 'media_files_tools' );
+		add_filter( 'manage_upload_sortable_columns', 'media_files_tools_content_sortable' );
+		add_filter( 'wp_generate_attachment_metadata', 'media_files_tools_metadata_generate', 10, 2);
+		add_action( 'pre_get_posts', 'media_files_tools_columns_do_sort' );
+		add_action( 'pre_get_posts', 'media_files_tools_mime_columns_do_sort' );
 	}
 
-	function wang_size_media_menu() {
-		$size_media = add_media_page( 'File Size', 'File Size', 'activate_plugins', 'wang_filesize', 'wang_size_media_wizard');
+	function media_files_tools_menu() {
+		$size_media = add_media_page( 'File Size', 'File Size', 'activate_plugins', 'wang_filesize', 'media_files_tools_wizard');
 	}
-	if( ! is_network_admin() ) add_action( 'admin_menu', 'wang_size_media_menu' );
-	function wang_size_media_wizard(){
+	if( ! is_network_admin() ) add_action( 'admin_menu', 'media_files_tools_menu' );
+	function media_files_tools_wizard(){
 		global $wpdb;
 		if ( !current_user_can('level_10') )
-		die(__('Cheatin&#8217; uh?', WANG_SIZE_MEDIA_DOMAIN ));
+		die(__('Cheatin&#8217; uh?', MEDIA_FILES_TOOLS ));
 		echo '<div class="wrap">';
 		echo '<h2>' . __( 'File Size Generator' ) . '</h2>';
 		$action = isset($_GET['action']) ? $_GET['action'] : 'show';
@@ -125,18 +125,18 @@ License: GPL2
 					<table class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e( 'File', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
-								<th><?php _e( 'Size', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
-								<th><?php _e( 'MIME Type', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
-								<th><?php _e( 'State', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
+								<th><?php _e( 'File', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'Size', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'MIME Type', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'State', MEDIA_FILES_TOOLS ) ?></th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
-								<th><?php _e( 'File', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
-								<th><?php _e( 'Size', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
-								<th><?php _e( 'MIME Type', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
-								<th><?php _e( 'State', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
+								<th><?php _e( 'File', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'Size', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'MIME Type', MEDIA_FILES_TOOLS ) ?></th>
+								<th><?php _e( 'State', MEDIA_FILES_TOOLS ) ?></th>
 							</tr>
 						</tfoot>
 						<tbody><?php
@@ -174,8 +174,8 @@ License: GPL2
 				break;
 				case 'show':
 				default: ?>
-					<p><?php _e( 'Update all files size can take a while.', WANG_SIZE_MEDIA_DOMAIN ); ?></p>
-					<p><a class="button" href="admin.php?page=wang_filesize&action=size"><?php _e( 'Get Files Size', WANG_SIZE_MEDIA_DOMAIN ); ?></a></p><?php
+					<p><?php _e( 'Update all files size can take a while.', MEDIA_FILES_TOOLS ); ?></p>
+					<p><a class="button" href="admin.php?page=wang_filesize&action=size"><?php _e( 'Get Files Size', MEDIA_FILES_TOOLS ); ?></a></p><?php
 				break;
 			}
 		}
