@@ -188,18 +188,32 @@ License: GPL2
 	add_filter('manage_posts_columns', 'media_files_tools_post_list');
 	add_filter('manage_page_posts_columns', 'media_files_tools_post_list');
 	function media_files_tools_post_content( $column_name, $post_ID) {
+		add_thickbox();
 		if ($column_name == 'featured_image') {
-			$post_thumbnail_id = get_post_thumbnail_id($post_ID);
+			$post_thumbnail_id = get_post_thumbnail_id( $post_ID );
 			if ( $post_thumbnail_id ){
 	    		$post_featured_image = wp_get_attachment_image( $post_thumbnail_id, array( 80, 60 ), true );
 	    		echo $post_featured_image;
+	    		$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post_ID ) );
+				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Change featured image', MEDIA_FILES_TOOLS ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Change featured image', MEDIA_FILES_TOOLS ) );
+				echo '<img src="' . $defaultimageurl . '" />';
+				echo $content;
 	    	}else{
 		    	$url = includes_url();
 				$defaultimageurl = $url . 'images/media/default.png';
+				$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post_ID ) );
+				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image', MEDIA_FILES_TOOLS ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Set featured image', MEDIA_FILES_TOOLS ) );
 				echo '<img src="' . $defaultimageurl . '" />';
+				echo $content;
 	    	}
 		}
 	}
+	/*function media_files_tools_load_js(){
+		wp_enqueue_script('posts' , "/" . PLUGINDIR . '/Media-Files-Tools/js/***.js' , array('jquery'),'1.5.6');
+	}
+	add_action('admin_print_scripts-edit.php', 'media_files_tools_load_js');*/
 	add_action('manage_posts_custom_column', 'media_files_tools_post_content', 10, 2);
 	add_action('manage_page_posts_custom_column', 'media_files_tools_post_content', 10, 2);
 ?>
