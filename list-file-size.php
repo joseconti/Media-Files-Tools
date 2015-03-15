@@ -90,41 +90,12 @@ License: GPL2
 			}
     	}
 	}
-	function wang_add_bulk_actions_via_javascript() { ?>
-		<script type="text/javascript">
-			jQuery(document).ready(function ($) {
-					$('select[name^="action"] option:last-child').before('<option value="bulk_size_media">Size Media</option>');
-			});
-		</script>
-		<?php
-	}
-	function wang_add_bulk_action_handler() {
-		check_admin_referer( 'bulk-media' );
-		if ( empty( $_REQUEST['media'] ) || ! is_array( $_REQUEST['media'] ) ) {
-			return;
-		}
-		$ids = implode( ',', array_map( 'intval', $_REQUEST['media'] ) );
-		$url = admin_url( 'upload.php' );
-		$url = add_query_arg(
-			array(
-				'page'     => 'size_media-bulk',
-				'goback'   => 1,
-				'ids'      => $ids,
-				'_wpnonce' => wp_create_nonce( 'size_media-bulk' )
-			),
-			$url
-		);
-		wp_redirect( $url );
-		exit();
-	}
 	if( is_admin() ){
 		add_filter( 'manage_media_custom_column', 'wang_size_media_content', 10, 2);
 		add_filter( 'manage_upload_columns', 'wang_size_media' );
 		add_filter( 'manage_upload_sortable_columns', 'wang_size_media_content_sortable' );
 		add_filter( 'wp_generate_attachment_metadata', 'wang_size_media_metadata_generate', 10, 2);
 		add_action( 'pre_get_posts', 'wang_size_media_columns_do_sort' );
-		add_action( 'admin_head-upload.php', 'wang_add_bulk_actions_via_javascript' );
-		add_action( 'admin_action_bulk_size_media', 'wang_add_bulk_action_handler' );
 	}
 
 	function wang_size_media_menu() {
