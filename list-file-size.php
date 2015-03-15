@@ -3,7 +3,7 @@
 Plugin Name: Media File Size
 Plugin URI: http://URI_De_La_Página_Que_Describe_el_Plugin_y_Actualizaciones
 Description: Una breve descripción del plugin.
-Version: 1.0
+Version: beta 2
 Author: j.conti
 Author URI: http://www.joseconti.com
 License: GPL2
@@ -23,7 +23,7 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-	define( 'WANG_SIZE_MEDIA', '1.0' );
+	define( 'WANG_SIZE_MEDIA', 'beta 2' );
 	define( 'WANG_SIZE_MEDIA_DOMAIN', 'wang_size_media') ;
 	add_action('init', 'wang_size_media_init');
 	function wang_size_media_init() {
@@ -33,11 +33,9 @@ License: GPL2
 		}
 	}
 	function wang_size_media( $column ) {
-    $column['filesize']  = _x( 'File Size', WANG_SIZE_MEDIA_DOMAIN );
-    return $column;
-    }
-	//add_filter('manage_media_columns', 'wang_size_media');
-
+    	$column['filesize']  = _x( 'File Size', WANG_SIZE_MEDIA_DOMAIN );
+		return $column;
+	}
 	function wang_size_media_content( $column_name, $post_id ){
 		$filesize = size_format( get_post_meta( $post_id, '_filesize', true ) );
 		if ( $filesize ){
@@ -132,7 +130,7 @@ License: GPL2
 	function wang_size_media_menu() {
 		$size_media = add_media_page( 'Image Size', 'Image Size', 'activate_plugins', 'wang_filesize', 'wang_size_media_wizard');
 	}
-	add_action( 'admin_menu', 'wang_size_media_menu' );
+	if( ! is_network_admin() ) add_action( 'admin_menu', 'wang_size_media_menu' );
 	function wang_size_media_wizard(){
 		global $wpdb;
 		if ( !current_user_can('level_10') )
