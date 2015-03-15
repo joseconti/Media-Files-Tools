@@ -128,7 +128,7 @@ License: GPL2
 	}
 
 	function wang_size_media_menu() {
-		$size_media = add_media_page( 'Image Size', 'Image Size', 'activate_plugins', 'wang_filesize', 'wang_size_media_wizard');
+		$size_media = add_media_page( 'File Size', 'File Size', 'activate_plugins', 'wang_filesize', 'wang_size_media_wizard');
 	}
 	if( ! is_network_admin() ) add_action( 'admin_menu', 'wang_size_media_menu' );
 	function wang_size_media_wizard(){
