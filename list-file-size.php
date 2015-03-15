@@ -40,9 +40,9 @@ License: GPL2
 		$filesize = size_format( get_post_meta( $post_id, '_filesize', true ) );
 		if ( $filesize ){
 			if( 'filesize' == $column_name ) echo $filesize;
-			} else {
-				echo 'Generate Size';
-			}
+			} else { ?>
+				<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', WANG_SIZE_MEDIA_DOMAIN ); ?></a>
+			<?php }
 	}
 	function wang_size_media_content_sortable( $columns ){
     	$columns['filesize']  = '_filesize';
@@ -116,12 +116,16 @@ License: GPL2
 						<thead>
 							<tr>
 								<th><?php _e( 'File', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
+								<th><?php _e( 'Size', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
+								<th><?php _e( 'MIME Type', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
 								<th><?php _e( 'State', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
 								<th><?php _e( 'File', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
+								<th><?php _e( 'Size', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
+								<th><?php _e( 'MIME Type', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
 								<th><?php _e( 'State', WANG_SIZE_MEDIA_DOMAIN ) ?></th>
 							</tr>
 						</tfoot>
@@ -130,17 +134,26 @@ License: GPL2
 								$att_id = $att->ID;
 								$file  = get_attached_file( $att_id );
 								$filename_only = basename( get_attached_file( $att_id ) );
+								$type = get_post_mime_type( $att_id );
 								$file_size = false;
 								$file_size = filesize( $file );
+								$file_size_format = size_format( $file_size );
 
 								if ( ! empty( $file_size ) ) {
 									update_post_meta( $att_id, '_filesize', $file_size ); ?>
 									<tr>
 										<td><?php echo $filename_only; ?></td>
+										<td><?php echo $type; ?></td>
+										<td><?php echo $file_size_format; ?></td>
 										<td>Done!</td>
 									</tr><?php
 								} else {
-									update_post_meta( $att_id, '_filesize', 'N/D' );
+									update_post_meta( $att_id, '_filesize', 'N/D' ); ?>
+									<tr>
+										<td><?php echo $filename_only; ?></td>
+										<td><?php echo 'Error'; ?></td>
+										<td>Done!</td>
+									</tr><?php
 									}
 							} ?>
 						</tbody>
