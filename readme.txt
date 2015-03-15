@@ -7,7 +7,7 @@ Tested up to: 4.1
 Stable tag: 1.0
 License: GPLv2
 
-The most advanced protection against sploggers and spam users registration, is fully WordPress,WordPress MU ,BuddyPress and bbPress 2.0 compatible
+Add media file size to Media screen and sort them by size
 
 == Description ==
 
