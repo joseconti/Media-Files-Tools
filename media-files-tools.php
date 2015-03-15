@@ -109,7 +109,7 @@ License: GPL2
 	}
 
 	function media_files_tools_menu() {
-		$size_media = add_media_page( 'File Size', 'File Size', 'activate_plugins', 'wang_filesize', 'media_files_tools_wizard');
+		$size_media = add_media_page( 'File Tools', 'File Tools', 'activate_plugins', 'wang_filesize', 'media_files_tools_wizard');
 	}
 	if( ! is_network_admin() ) add_action( 'admin_menu', 'media_files_tools_menu' );
 	function media_files_tools_wizard(){
