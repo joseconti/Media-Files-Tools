@@ -22,6 +22,8 @@ More features to come.
 
 2. Activate the plugin through the "Plugins" menu in WordPress or Network activate for Multisite
 
+3. Under Media menu, go to File Tools and "Get Files Size"
+
 3. Updates are automatic. Click on "Upgrade Automatically" if prompted from the admin menu. If you ever have to manually upgrade, simply deactivate, uninstall, and repeat the installation steps with the new version.
 
 
