@@ -2,16 +2,18 @@
 Contributors: j.conti
 Author URI: http://www.joseconti.com
 Tags: media, file size, sort size, size, media library, media library size, Media Files Tool, files tools
-Requires at least: 3.0
+Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: beta 2
+Stable tag: 1.0
 License: GPLv2
 
-Add media file size and MIME Type columns to Media Library screen and sort them by size
+Add tools for media files.
 
 == Description ==
 
 With this plugin you can add new columns in Media Library. The new columns are File Size and MIME Type. These new columns are sortable so you can find the files with the bigger size in an easy way.
+
+Add featured image to post list and allow to add a change the featured image from post, custom post and page list.
 
 More features to come.
 

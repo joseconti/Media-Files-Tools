@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Media Files Tool
-Plugin URI: http://URI_De_La_Página_Que_Describe_el_Plugin_y_Actualizaciones
-Description: Una breve descripción del plugin.
-Version: beta 2
+Plugin URI: http://www.joseconti.com
+Description: Add tools for media files.
+Version: 1.0
 Author: j.conti
 Author URI: http://www.joseconti.com
 License: GPL2
@@ -23,7 +23,7 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-	define( 'MEDIA_FILES_TOOLS_VERSION', 'beta 2' );
+	define( 'MEDIA_FILES_TOOLS_VERSION', '1.0' );
 	add_action('init', 'media_files_tools_init');
 	function media_files_tools_init() {
 		if (function_exists('load_plugin_textdomain')) {
@@ -50,7 +50,7 @@ License: GPL2
 			if( 'mimetype' == $column_name ) echo $filemime;
 			} else {
 				if( 'mimetype' == $column_name ){ ?>
-					<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All Size', 'media-file-tools' ); ?></a>
+					<a href="<?php { echo esc_url( admin_url( add_query_arg( array( 'page' => 'wang_filesize' ), 'upload.php' ) ) ); }  ?>"><?php _e( 'Generate All MIME Types', 'media-file-tools' ); ?></a>
 			<?php }
 				}
 	}
