@@ -3,7 +3,7 @@
 Plugin Name: Media Files Tool
 Plugin URI: http://www.joseconti.com
 Description: Add tools for media files.
-Version: 1.0
+Version: 1.1
 Author: j.conti
 Author URI: http://www.joseconti.com
 License: GPL2
@@ -23,7 +23,7 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-	define( 'MEDIA_FILES_TOOLS_VERSION', '1.0' );
+	define( 'MEDIA_FILES_TOOLS_VERSION', '1.1' );
 	add_action('init', 'media_files_tools_init');
 	function media_files_tools_init() {
 		if (function_exists('load_plugin_textdomain')) {
@@ -55,7 +55,7 @@ License: GPL2
 				}
 	}
 	function media_files_tools_content_sortable( $columns ){
-    	$columns['filesize']  = '_filesize';
+    	$columns['filesize'] = '_filesize';
     	$columns['mimetype'] = '_filesmimetype';
 		return $columns;
 	}
@@ -83,8 +83,8 @@ License: GPL2
 		$is_filesize = (isset( $_GET['orderby'] ) && '_filesize' == $_GET['orderby']);
 		if( !$is_filesize ) return;
 		if ( '_filesize' == $_GET['orderby'] ){
-        	$query->set('meta_key', '_filesize');
-			$query->set('orderby', 'meta_value_num');
+        	$query->set('meta_key',	'_filesize');
+			$query->set('orderby',	'meta_value_num');
     	}
 	}
 	function media_files_tools_mime_columns_do_sort(&$query){
@@ -94,17 +94,17 @@ License: GPL2
 		$is_mimetype = (isset( $_GET['orderby'] ) && '_filesmimetype' == $_GET['orderby']);
 		if( !$is_mimetype ) return;
 		if ( '_filesmimetype' == $_GET['orderby'] ){
-        	$query->set('meta_key', '_filesmimetype');
-			$query->set('orderby', 'meta_value');
+        	$query->set('meta_key',	'_filesmimetype');
+			$query->set('orderby',	'meta_value');
     	}
 	}
 	if( is_admin() ){
-		add_filter( 'manage_media_custom_column', 'media_files_tools_content', 10, 2);
-		add_filter( 'manage_upload_columns', 'media_files_tools' );
-		add_filter( 'manage_upload_sortable_columns', 'media_files_tools_content_sortable' );
-		add_filter( 'wp_generate_attachment_metadata', 'media_files_tools_metadata_generate', 10, 2);
-		add_action( 'pre_get_posts', 'media_files_tools_columns_do_sort' );
-		add_action( 'pre_get_posts', 'media_files_tools_mime_columns_do_sort' );
+		add_filter( 'manage_media_custom_column',		'media_files_tools_content', 10, 2);
+		add_filter( 'manage_upload_columns',			'media_files_tools' );
+		add_filter( 'manage_upload_sortable_columns',	'media_files_tools_content_sortable' );
+		add_filter( 'wp_generate_attachment_metadata',	'media_files_tools_metadata_generate', 10, 2);
+		add_action( 'pre_get_posts',					'media_files_tools_columns_do_sort' );
+		add_action( 'pre_get_posts',					'media_files_tools_mime_columns_do_sort' );
 	}
 
 	function media_files_tools_menu() {
@@ -124,29 +124,29 @@ License: GPL2
 					<table class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e( 'File', 'media-file-tools' ) ?></th>
-								<th><?php _e( 'Size', 'media-file-tools' ) ?></th>
-								<th><?php _e( 'MIME Type', 'media-file-tools' ) ?></th>
-								<th><?php _e( 'State', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'File',		'media-file-tools' ) ?></th>
+								<th><?php _e( 'Size',		'media-file-tools' ) ?></th>
+								<th><?php _e( 'MIME Type',	'media-file-tools' ) ?></th>
+								<th><?php _e( 'State',		'media-file-tools' ) ?></th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
-								<th><?php _e( 'File', 'media-file-tools' ) ?></th>
-								<th><?php _e( 'Size', 'media-file-tools' ) ?></th>
-								<th><?php _e( 'MIME Type', 'media-file-tools' ) ?></th>
-								<th><?php _e( 'State', 'media-file-tools' ) ?></th>
+								<th><?php _e( 'File',		'media-file-tools' ) ?></th>
+								<th><?php _e( 'Size',		'media-file-tools' ) ?></th>
+								<th><?php _e( 'MIME Type',	'media-file-tools' ) ?></th>
+								<th><?php _e( 'State',		'media-file-tools' ) ?></th>
 							</tr>
 						</tfoot>
 						<tbody><?php
 							foreach( $attachments as $att ){
-								$att_id = $att->ID;
-								$file  = get_attached_file( $att_id );
-								$filename_only = basename( get_attached_file( $att_id ) );
-								$mimetype = get_post_mime_type( $att_id );
-								$file_size = false;
-								$file_size = filesize( $file );
-								$file_size_format = size_format( $file_size );
+								$att_id				= $att->ID;
+								$file 				= get_attached_file( $att_id );
+								$filename_only		= basename( get_attached_file( $att_id ) );
+								$mimetype			= get_post_mime_type( $att_id );
+								$file_size			= false;
+								$file_size			= filesize( $file );
+								$file_size_format	= size_format( $file_size );
 
 								if ( ! empty( $file_size ) ) {
 									update_post_meta( $att_id, '_filesize', $file_size );
@@ -184,35 +184,59 @@ License: GPL2
     	$columns['featured_image'] = __( 'Featured Image', 'media-file-tools' );
 		return $columns;
 	}
-	add_filter('manage_posts_columns', 'media_files_tools_post_list');
+	add_filter('manage_posts_columns',		'media_files_tools_post_list');
 	add_filter('manage_page_posts_columns', 'media_files_tools_post_list');
 	function media_files_tools_post_content( $column_name, $post_ID) {
-		add_thickbox();
 		if ($column_name == 'featured_image') {
 			$post_thumbnail_id = get_post_thumbnail_id( $post_ID );
 			if ( $post_thumbnail_id ){
-	    		$post_featured_image = wp_get_attachment_image( $post_thumbnail_id, array( 80, 60 ), true );
+				$media_files_tools_nonce	= wp_create_nonce( 'set_post_thumbnail-' . $post_ID );
+	    		$post_featured_image		= wp_get_attachment_image( $post_thumbnail_id, array( 80, 60 ), true );
+	    		$thumbnail_html				= wp_get_attachment_image( $post_thumbnail_id, 'post-thumbnail' );
 	    		echo $post_featured_image;
-	    		$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post_ID ) );
-				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Change featured image', 'media-file-tools' ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
-				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Change featured image', 'media-file-tools' ) );
-				echo '<img src="' . $defaultimageurl . '" />';
+	    		$upload_iframe_src			= esc_url( get_upload_iframe_src('image', $post_ID ) );
+				$set_thumbnail_link			= '<p class="hide-if-no-js"><div class="row-actions"><a title="' . esc_attr__( 'Change Featured Image', 'media-file-tools' ) . '" href="%1$s" id="set-post-thumbnail" class="media_files_tools_thickbox" data-thumbnail-id="%2$s">%3$s</a></div></p>';
+				$content = sprintf( $set_thumbnail_link, $upload_iframe_src . '&_wpnonce=' . $media_files_tools_nonce, $post_thumbnail_id, esc_html__( 'Change featured image', 'media-file-tools' ) );
 				echo $content;
+				echo $content2;
 	    	}else{
 		    	$url = includes_url();
-				$defaultimageurl = $url . 'images/media/default.png';
-				$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post_ID ) );
-				$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image', 'media-file-tools' ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
-				$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Set featured image', 'media-file-tools' ) );
+				$defaultimageurl			= $url . 'images/media/default.png';
+				$media_files_tools_nonce	= wp_create_nonce( 'set_post_thumbnail-' . $post_ID );
+				$upload_iframe_src			= esc_url( get_upload_iframe_src('image', $post_ID ) );
+				$set_thumbnail_link			= '<p class="hide-if-no-js"><div class="row-actions"><a title="' . esc_attr__( 'Set featured image', 'media-file-tools' ) . '" href="%1$s" id="set-post-thumbnail" class="media_files_tools_thickbox" id="set-post-thumbnail">%2$s</a></div></p>';
+				$content					= sprintf( $set_thumbnail_link, $upload_iframe_src . '&_wpnonce=' . $media_files_tools_nonce, esc_html__( 'Set featured image', 'media-file-tools' ) );
 				echo '<img src="' . $defaultimageurl . '" />';
 				echo $content;
 	    	}
 		}
 	}
-	/*function media_files_tools_load_js(){
-		wp_enqueue_script('posts' , "/" . PLUGINDIR . '/Media-Files-Tools/js/***.js' , array('jquery'),'1.5.6');
+	function media_files_tools_load_js(){
+		//add_thickbox();
+        wp_enqueue_media();
+		wp_enqueue_script('media_files_tools_load_js' , "/" . PLUGINDIR . '/media-files-tools/js/uploader.js' , array('jquery'),'2.0');
+        wp_enqueue_script('media_files_tools_load_js');
 	}
-	add_action('admin_print_scripts-edit.php', 'media_files_tools_load_js');*/
-	add_action('manage_posts_custom_column', 'media_files_tools_post_content', 10, 2);
-	add_action('manage_page_posts_custom_column', 'media_files_tools_post_content', 10, 2);
+	function media_files_tools_update_featured_image() {
+
+        // Get the post id we are to attach the image to
+        $post_ID = intval( $_POST['post_id'] );
+        if ( ! current_user_can( 'edit_post', $post_ID ) )
+            wp_die( -1 );
+
+        // Check who's calling us before proceeding
+        check_ajax_referer( 'set_post_thumbnail-' . $post_ID, $media_files_tools_nonce );
+
+        // Get thumbnail ID so we can then get html src to use for thumbnail
+        $thumbnail_id = intval( $_POST['thumbnail_id'] );
+        $thumb_url = wp_get_attachment_image( $thumbnail_id, array( 80, 60 ), true );
+        echo $thumb_url;
+
+        die();
+    }
+    add_action( 'wp_ajax_media_files_tools_update_featured_image',	'media_files_tools_update_featured_image');
+	add_action('admin_print_scripts-edit.php',						'media_files_tools_load_js');
+	add_action('admin_enqueue_scripts',								'media_files_tools_load_js');
+	add_action('manage_posts_custom_column',						'media_files_tools_post_content', 10, 2);
+	add_action('manage_page_posts_custom_column',					'media_files_tools_post_content', 10, 2);
 ?>
