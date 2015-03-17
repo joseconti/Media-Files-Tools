@@ -1,10 +1,10 @@
 === Media Files Tools ===
 Contributors: j.conti
 Author URI: http://www.joseconti.com
-Tags: media, file size, sort size, size, media library, media library size, Media Files Tool, files tools, featured image
-Requires at least: 3.3
+Tags: media, file size, sort size, sort files size, size, media library, media library size, Media Files Tool, files tools, featured image
+Requires at least: 3.5
 Tested up to: 4.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2
 
 Add tools for media files.
@@ -45,6 +45,10 @@ More features to come.
 
 
 == Changelog ==
+
+= 1.1 - March 17, 2015 =
+
+- Now Featured Image are loaded with Ajax and use new WordPress uploader.
 
 = 1.0 - March 16, 2015 =
 
