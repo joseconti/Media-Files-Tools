@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WangGuard\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wangguard\n"
-"POT-Creation-Date: 2015-03-16 01:55+0100\n"
-"PO-Revision-Date: 2015-03-16 01:55+0100\n"
+"POT-Creation-Date: 2015-03-18 01:43+0100\n"
+"PO-Revision-Date: 2015-03-18 01:43+0100\n"
 "Last-Translator: José Conti <admin@wangguard.com>\n"
 "Language-Team: WangGuard <info@wangguard.com>\n"
 "Language: es_ES\n"
@@ -68,17 +68,25 @@ msgstr "La actualización de todos los tamaños puede tardar un poco"
 msgid "Get Files Size"
 msgstr "Generar los tamaños"
 
-#: ../media-files-tools.php:184
+#: ../media-files-tools.php:184 ../media-files-tools.php:220
 msgid "Featured Image"
 msgstr "Imagen destacada"
 
-#: ../media-files-tools.php:197 ../media-files-tools.php:198
+#: ../media-files-tools.php:198
+msgid "Change Featured Image"
+msgstr "Cambiar imagen destacada"
+
+#: ../media-files-tools.php:199
 msgid "Change featured image"
 msgstr "Cambiar imagen destacada"
 
-#: ../media-files-tools.php:205 ../media-files-tools.php:206
+#: ../media-files-tools.php:207 ../media-files-tools.php:208
 msgid "Set featured image"
 msgstr "Asignar imagen destacada"
+
+#: ../media-files-tools.php:221
+msgid "Use as Featured Image"
+msgstr "Utilizar como imagen destacada"
 
 #~ msgid "Welcome to WangGuard %s"
 #~ msgstr "Bienvenido WangGuard %s"
