@@ -14,6 +14,7 @@
     var thumbnail_upload_frame;
     var titleMediaManager = media_files_localize.mediaManager;
     var titlebutton = media_files_localize.textButton;
+    var ChangeFeaturedImageText = media_files_localize.ChangeFeaturedImageText;
 
     // inspired from:
     // mikejolley.com/2012/12/using-the-new-wordpress-3-5-media-uploader-in-plugins/
@@ -80,7 +81,7 @@
                     post_id:        post_id,
                     _ajax_nonce:    nonce
                 }).done ( function( thumb_url )  {
-					post_html = '<p class="hide-if-no-js"><div class="row-actions"><a title="Change Featured Image" href="' + '/wp-admin/media-upload.php?post_id=' + post_id + '&amp;type=image&amp;TB_iframe=1&_wpnonce=' + nonce + '" id="set-post-thumbnail" class="media_files_tools_thickbox" data-thumbnail-id="">Change featured image</a></diiv>';
+					post_html = '<p class="hide-if-no-js"><div class="row-actions"><a title="Change Featured Image" href="' + '/wp-admin/media-upload.php?post_id=' + post_id + '&amp;type=image&amp;TB_iframe=1&_wpnonce=' + nonce + '" id="set-post-thumbnail" class="media_files_tools_thickbox" data-thumbnail-id="">' + ChangeFeaturedImageText + '</a></diiv>';
                     $( '.featured_image', '#post-' + post_id, '.column-featured_image' ).html( thumb_url + post_html );
                     $( '.featured_image', '#post-' + post_id ).hide().fadeIn();
                 })

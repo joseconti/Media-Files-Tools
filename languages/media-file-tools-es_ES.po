@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WangGuard\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wangguard\n"
-"POT-Creation-Date: 2015-03-18 01:43+0100\n"
-"PO-Revision-Date: 2015-03-18 01:43+0100\n"
+"POT-Creation-Date: 2015-03-18 01:51+0100\n"
+"PO-Revision-Date: 2015-03-18 01:51+0100\n"
 "Last-Translator: José Conti <admin@wangguard.com>\n"
 "Language-Team: WangGuard <info@wangguard.com>\n"
 "Language: es_ES\n"
@@ -72,7 +72,7 @@ msgstr "Generar los tamaños"
 msgid "Featured Image"
 msgstr "Imagen destacada"
 
-#: ../media-files-tools.php:198
+#: ../media-files-tools.php:198 ../media-files-tools.php:222
 msgid "Change Featured Image"
 msgstr "Cambiar imagen destacada"
 
