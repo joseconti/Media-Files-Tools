@@ -216,6 +216,11 @@ License: GPL2
         wp_enqueue_media();
 		wp_enqueue_script('media_files_tools_load_js' , "/" . PLUGINDIR . '/media-files-tools/js/uploader.js' , array('jquery'),'2.0');
         wp_enqueue_script('media_files_tools_load_js');
+        $translation_array = array(
+			'mediaManager'	=> __( 'Featured Image', 'media-file-tools' ),
+			'textButton'	=> __( 'Use as Featured Image', 'media-file-tools' )
+			);
+		wp_localize_script( 'media_files_tools_load_js', 'media_files_localize', $translation_array );
 	}
 	function media_files_tools_update_featured_image() {
 

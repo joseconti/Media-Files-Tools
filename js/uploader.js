@@ -12,6 +12,8 @@
 (function($){
     //uploading files variable
     var thumbnail_upload_frame;
+    var titleMediaManager = media_files_localize.mediaManager;
+    var titlebutton = media_files_localize.textButton;
 
     // inspired from:
     // mikejolley.com/2012/12/using-the-new-wordpress-3-5-media-uploader-in-plugins/
@@ -34,13 +36,13 @@
         // Set the title and expected images to use in the dialog
         thumbnail_upload_frame = wp.media.frames.customHeader = wp.media({
             //Title of media manager frame
-            title: "Featured Image",
+            title: titleMediaManager,
             library: {
                 type: 'image'
             },
             button: {
                 //Button text
-                text: "Use as Featured Image"
+                text: titlebutton
             },
             states: [
                 new wp.media.controller.Library({
