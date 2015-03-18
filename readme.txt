@@ -4,7 +4,7 @@ Author URI: http://www.joseconti.com
 Tags: media, file size, sort size, sort files size, size, media library, media library size, Media Files Tool, files tools, featured image
 Requires at least: 3.5
 Tested up to: 4.1
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2
 
 Add tools for media files.
@@ -45,6 +45,10 @@ More features to come.
 
 
 == Changelog ==
+
+= 1.1.1 - March 18, 2015 =
+
+- Adding localization to js.
 
 = 1.1 - March 17, 2015 =
 
