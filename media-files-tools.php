@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Media Files Tool
-Plugin URI: http://www.joseconti.com
-Description: Add tools for media files.
-Version: 1.1
-Author: j.conti
-Author URI: http://www.joseconti.com
-License: GPL2
+	Plugin Name: Media Files Tool
+	Plugin URI: http://www.joseconti.com
+	Description: Add tools for media files.
+	Version: 1.1.1
+	Author: j.conti
+	Author URI: http://www.joseconti.com
+	License: GPL2
 */
 /*  Copyright AÑO NOMBRE_AUTOR_PLUGIN  (email : EMAIL DEL AUTOR DEL PLUGIN)
 
@@ -23,7 +23,7 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-	define( 'MEDIA_FILES_TOOLS_VERSION', '1.1' );
+	define( 'MEDIA_FILES_TOOLS_VERSION', '1.1.1' );
 	add_action('init', 'media_files_tools_init');
 	function media_files_tools_init() {
 		if (function_exists('load_plugin_textdomain')) {
