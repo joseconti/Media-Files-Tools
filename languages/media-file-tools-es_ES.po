@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WangGuard\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wangguard\n"
-"POT-Creation-Date: 2015-03-18 01:51+0100\n"
-"PO-Revision-Date: 2015-03-18 01:51+0100\n"
+"POT-Creation-Date: 2015-03-19 22:34+0100\n"
+"PO-Revision-Date: 2015-03-19 22:36+0100\n"
 "Last-Translator: José Conti <admin@wangguard.com>\n"
 "Language-Team: WangGuard <info@wangguard.com>\n"
 "Language: es_ES\n"
@@ -20,73 +20,83 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../media-files-tools.php:35
+#: ../media-files-tools.php:42
 msgid "File Size"
 msgstr "Tamaño archivo"
 
-#: ../media-files-tools.php:36
+#: ../media-files-tools.php:43
 msgid "MiME Type"
 msgstr "Tipo MIME"
 
-#: ../media-files-tools.php:46
+#: ../media-files-tools.php:53
 msgid "Generate All Size"
 msgstr "Generar todos los tamaños"
 
-#: ../media-files-tools.php:53
+#: ../media-files-tools.php:60
 msgid "Generate All MIME Types"
 msgstr "Generar todos los tipo MIME"
 
-#: ../media-files-tools.php:117
+#: ../media-files-tools.php:124
 msgid "Cheatin&#8217; uh?"
 msgstr "¿Haciendo trampa?"
 
-#: ../media-files-tools.php:119
+#: ../media-files-tools.php:126
 msgid "File Size Generator"
 msgstr "Generador de tamaños"
 
-#: ../media-files-tools.php:127 ../media-files-tools.php:135
+#: ../media-files-tools.php:134 ../media-files-tools.php:142
 msgid "File"
 msgstr "Archivo"
 
-#: ../media-files-tools.php:128 ../media-files-tools.php:136
+#: ../media-files-tools.php:135 ../media-files-tools.php:143
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../media-files-tools.php:129 ../media-files-tools.php:137
+#: ../media-files-tools.php:136 ../media-files-tools.php:144
 msgid "MIME Type"
 msgstr "Tipo MIME"
 
-#: ../media-files-tools.php:130 ../media-files-tools.php:138
+#: ../media-files-tools.php:137 ../media-files-tools.php:145
 msgid "State"
 msgstr "Estado"
 
-#: ../media-files-tools.php:176
+#: ../media-files-tools.php:183
 msgid "Update all files size can take a while."
 msgstr "La actualización de todos los tamaños puede tardar un poco"
 
-#: ../media-files-tools.php:177
+#: ../media-files-tools.php:184
 msgid "Get Files Size"
 msgstr "Generar los tamaños"
 
-#: ../media-files-tools.php:184 ../media-files-tools.php:220
+#: ../media-files-tools.php:191 ../media-files-tools.php:228
 msgid "Featured Image"
 msgstr "Imagen destacada"
 
-#: ../media-files-tools.php:198 ../media-files-tools.php:222
+#: ../media-files-tools.php:206 ../media-files-tools.php:230
 msgid "Change Featured Image"
 msgstr "Cambiar imagen destacada"
 
-#: ../media-files-tools.php:199
+#: ../media-files-tools.php:207
 msgid "Change featured image"
 msgstr "Cambiar imagen destacada"
 
-#: ../media-files-tools.php:207 ../media-files-tools.php:208
+#: ../media-files-tools.php:215 ../media-files-tools.php:216
 msgid "Set featured image"
 msgstr "Asignar imagen destacada"
 
-#: ../media-files-tools.php:221
+#: ../media-files-tools.php:229
 msgid "Use as Featured Image"
 msgstr "Utilizar como imagen destacada"
+
+#: ../media-files-tools.php:260
+msgid "Image Link to"
+msgstr "La imagen enlaza a"
+
+#: ../media-files-tools.php:263
+msgid "Replace with this field the link to File or Attachment page."
+msgstr ""
+"Con este campo se reemplaza el enlaza al archivo o a la página de adjuntos "
+"por uno personalizado."
 
 #~ msgid "Welcome to WangGuard %s"
 #~ msgstr "Bienvenido WangGuard %s"
