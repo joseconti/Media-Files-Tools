@@ -332,10 +332,7 @@
 				$urlSecondChange = preg_replace('/(\?)\s*/', '\\?', $urlPrepare);
 
 				$pattern = '/' . $urlSecondChange . '/';
-				//$content .= $urlPrepare . '<br />';
 				$content = preg_replace( $pattern, $url, $content );
-				//$content .= '<p>Sustituir ' . $urlSecondChange . '<br />';
-				//$content .= 'Por ' . $url . '</p>';
 			}
 			return $content;
 	}
