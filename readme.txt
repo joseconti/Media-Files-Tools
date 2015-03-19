@@ -4,16 +4,18 @@ Author URI: http://www.joseconti.com
 Tags: media, file size, sort size, sort files size, size, media library, media library size, Media Files Tool, files tools, featured image
 Requires at least: 3.5
 Tested up to: 4.1
-Stable tag: 1.1.1
+Stable tag: 1.2
 License: GPLv2
 
 Add tools for media files.
 
 == Description ==
 
-With this plugin you can add new columns in Media Library. The new columns are File Size and MIME Type. The File Size column is sortable so you can find the files with the bigger size in an easy way.
+With this plugin you can add tools for Media
 
-Add featured image to post list and allow to add and change the featured image from post, custom post and page list.
+- Add columns in Media Library: The new columns are File Size and MIME Type. The File Size column is sortable so you can find the files with the bigger size in an easy way.
+- Add featured image to post list and allow to add and change the featured image from post, custom post and page list.
+- Add the ability of customize every image link of a Image Gallery.
 
 More features to come.
 
@@ -38,6 +40,7 @@ More features to come.
 2. **Media Library** - Two new columns, File Size (Sortable) and MIME Type.
 3. **Post, Custom Post and Page lists** - Added new column with Featured Image. You can add Featured Image from list.
 4. **Adding Featured Image** - Adding Featured image to a post.
+5. **Field for add the Link** - Field for add the custom link for an image.
 
 == Frequently Asked Questions ==
 
@@ -45,6 +48,10 @@ More features to come.
 
 
 == Changelog ==
+
+= 1.2 - March 19, 2015 =
+
+- Added the ability of customize every image link of a Image Gallery.
 
 = 1.1.1 - March 18, 2015 =
 
