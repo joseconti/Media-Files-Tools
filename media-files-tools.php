@@ -24,6 +24,13 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 	define( 'MEDIA_FILES_TOOLS_VERSION', '1.1.1' );
+	$extensions = array(
+		'gif',
+		'jpg',
+		'jpeg',
+		'png'
+	);
+
 	add_action('init', 'media_files_tools_init');
 	function media_files_tools_init() {
 		if (function_exists('load_plugin_textdomain')) {
@@ -184,8 +191,9 @@
     	$columns['featured_image'] = __( 'Featured Image', 'media-file-tools' );
 		return $columns;
 	}
-	add_filter('manage_posts_columns',		'media_files_tools_post_list');
-	add_filter('manage_page_posts_columns', 'media_files_tools_post_list');
+	add_filter('manage_posts_columns',		'media_files_tools_post_list'	);
+	add_filter('manage_page_posts_columns', 'media_files_tools_post_list'	);
+
 	function media_files_tools_post_content( $column_name, $post_ID) {
 		if ($column_name == 'featured_image') {
 			$post_thumbnail_id = get_post_thumbnail_id( $post_ID );
@@ -240,9 +248,96 @@
 
         die();
     }
-    add_action( 'wp_ajax_media_files_tools_update_featured_image',	'media_files_tools_update_featured_image');
-	add_action('admin_print_scripts-edit.php',						'media_files_tools_load_js');
-	add_action('admin_enqueue_scripts',								'media_files_tools_load_js');
-	add_action('manage_posts_custom_column',						'media_files_tools_post_content', 10, 2);
-	add_action('manage_page_posts_custom_column',					'media_files_tools_post_content', 10, 2);
+    add_action( 'wp_ajax_media_files_tools_update_featured_image',	'media_files_tools_update_featured_image'	);
+	add_action('admin_print_scripts-edit.php',						'media_files_tools_load_js'					);
+	add_action('admin_enqueue_scripts',								'media_files_tools_load_js'					);
+	add_action('manage_posts_custom_column',						'media_files_tools_post_content', 10, 2		);
+	add_action('manage_page_posts_custom_column',					'media_files_tools_post_content', 10, 2		);
+
+
+	function media_files_tools_galley_image_link( $form_fields, $post ) {
+		$form_fields['media_files_tools_image_link_to'] = array(
+			'label' => __( 'Image Link to', 'media-file-tools' ),
+			'input' => 'text',
+			'value' => get_post_meta( $post->ID, '_media_files_tools_image_link_to', true ),
+			'helps' => __( 'Replace with this field the link to File or Attachment page.', 'media-file-tools' )
+		);
+		return $form_fields;
+	}
+	function media_files_tools_galley_image_link_save( $post, $attachment ) {
+		if( isset( $attachment['media_files_tools_image_link_to'] ) ) {
+			update_post_meta( $post['ID'], '_media_files_tools_image_link_to', $attachment['media_files_tools_image_link_to'] );
+		}
+		return $post;
+	}
+	add_filter( 'attachment_fields_to_edit', 'media_files_tools_galley_image_link', null, 2			);
+	add_filter( 'attachment_fields_to_save', 'media_files_tools_galley_image_link_save', null , 2	);
+	function media_files_tools_search_links($content){
+		global $post;
+		$links = array();
+		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'gallery') ) {
+			$searchlinks =  '#(?:<a[^>]+?href=["|\'](?P<link_url>[^\s]+?)["|\'][^>]*?>\s*)?(?P<img_tag><img[^>]+?src=["|\'](?P<img_url>[^\s]+?)["|\'].*?>){1}(?:\s*</a>)?#is';
+			preg_match_all($searchlinks, $content, $links);
+				foreach ($links as $key => $unused) {
+					if ( is_numeric( $key ) && $key > 0 )
+						unset( $links[$key] );
+			} return $links;
+		} return array();
+	}
+	function media_files_tools_get_file_id($image_url){
+		global $wpdb;
+		$attachment = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND guid='%s';", $image_url ));
+        return $attachment;
+	}
+	function media_files_tools_get_src_full_maybe( $src ){
+		$stripped_src = $src;
+
+		// Build URL, first removing WP's resized string so we pass the original image to Photon
+		if ( preg_match( '#(-\d+x\d+)\.(' . implode('|', $GLOBALS['extensions'] ) . '){1}$#i', $src, $src_parts ) ) {
+			$stripped_src = str_replace( $src_parts[1], '', $src );
+			$upload_dir = wp_upload_dir();
+
+			// Extracts the file path to the image minus the base url
+			$file_path = substr( $stripped_src, strlen ( $upload_dir['baseurl'] ) );
+			if( file_exists( $upload_dir["basedir"] . $file_path ) )
+				$src = $stripped_src;
+		}
+		return $src;
+	}
+	function media_files_tools_change_links($content){
+		$links = media_files_tools_search_links($content);
+		if( is_attachment() ) return;
+		foreach ( $links[img_url] as $link) {
+			$fileID = media_files_tools_get_file_id($link);
+			if( $fileID ){
+				$url = get_post_meta( $fileID, '_media_files_tools_image_link_to', true);
+				$attachment_page = get_attachment_link( $fileID );
+					if ( $url ){
+						$url = $url;
+					} else {
+						$url = $attachment_page;
+					}
+				} else {
+					$realsrc			= media_files_tools_get_src_full_maybe( $link );
+					$fileID				= media_files_tools_get_file_id( $realsrc );
+					$attachment_page	= get_attachment_link( $fileID );
+					$url				= get_post_meta( $fileID, '_media_files_tools_image_link_to', true);
+					if ( $url ){
+						$url = $url;
+					} else {
+						$url = $attachment_page;
+					}
+				}
+				$urlPrepare = preg_replace( '/\//', '\/', $attachment_page);
+				$urlSecondChange = preg_replace('/(\?)\s*/', '\\?', $urlPrepare);
+
+				$pattern = '/' . $urlSecondChange . '/';
+				//$content .= $urlPrepare . '<br />';
+				$content = preg_replace( $pattern, $url, $content );
+				//$content .= '<p>Sustituir ' . $urlSecondChange . '<br />';
+				//$content .= 'Por ' . $url . '</p>';
+			}
+			return $content;
+	}
+	add_filter( 'the_content', 'media_files_tools_change_links',9999999);
 ?>
