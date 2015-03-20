@@ -3,7 +3,7 @@
 	Plugin Name: Media Files Tool
 	Plugin URI: http://www.joseconti.com
 	Description: Add tools for media files.
-	Version: 1.2
+	Version: 1.2.1
 	Author: j.conti
 	Author URI: http://www.joseconti.com
 	License: GPL2
@@ -23,7 +23,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-	define( 'MEDIA_FILES_TOOLS_VERSION', '1.2' );
+	define( 'MEDIA_FILES_TOOLS_VERSION', '1.2.1' );
 	$extensions = array(
 		'gif',
 		'jpg',
@@ -31,9 +31,9 @@
 		'png'
 	);
 
-	add_action( 'init', 'media_files_tools_init' );
+	add_action('init', 'media_files_tools_init');
 	function media_files_tools_init() {
-		if ( function_exists( 'load_plugin_textdomain' ) ) {
+		if (function_exists('load_plugin_textdomain')) {
 			$plugin_dir = basename(dirname(__FILE__));
 			load_plugin_textdomain( 'media-file-tools', false, $plugin_dir . "/languages/" );
 		}
@@ -67,65 +67,64 @@
 		return $columns;
 	}
 	function media_files_tools_metadata_generate( $image_data, $att_id ){
-       		$file  			= get_attached_file( $att_id );
-	   		$file_size		= false;
-	   		$file_size		= filesize( $file );
-	   		$file_mime_type	= get_post_mime_type( $att_id );
-	   		if ( ! empty( $file_size ) ){
+       		$file  = get_attached_file( $att_id );
+	   		$file_size = false;
+	   		$file_size = filesize( $file );
+	   		$file_mime_type = get_post_mime_type( $att_id );
+	   		if ( ! empty( $file_size ) ) {
 				update_post_meta( $att_id, '_filesize', $file_size );
 			} else {
 				update_post_meta( $att_id, '_filesize', 'N/D' );
 			}
-			if ( ! empty( $file_mime_type ) ){
+			if ( ! empty( $file_mime_type ) ) {
 				update_post_meta( $att_id, '_filesmimetype', $file_mime_type );
 			} else {
 				update_post_meta( $att_id, '_filesmimetype', 'N/D' );
 			}
 		return $image_data;
 	}
-	function media_files_tools_columns_do_sort( &$query ){
+	function media_files_tools_columns_do_sort(&$query){
     	global $current_screen;
 
 		if( 'upload' != $current_screen->id ) return;
-		$is_filesize = ( isset( $_GET['orderby'] ) && '_filesize' == $_GET['orderby'] );
+		$is_filesize = (isset( $_GET['orderby'] ) && '_filesize' == $_GET['orderby']);
 		if( !$is_filesize ) return;
 		if ( '_filesize' == $_GET['orderby'] ){
-        	$query->set( 'meta_key', '_filesize' );
-			$query->set( 'orderby',	'meta_value_num' );
+        	$query->set('meta_key',	'_filesize');
+			$query->set('orderby',	'meta_value_num');
     	}
 	}
-	function media_files_tools_mime_columns_do_sort( &$query ){
+	function media_files_tools_mime_columns_do_sort(&$query){
     	global $current_screen;
 
 		if( 'upload' != $current_screen->id ) return;
-		$is_mimetype = ( isset( $_GET['orderby'] ) && '_filesmimetype' == $_GET['orderby'] );
+		$is_mimetype = (isset( $_GET['orderby'] ) && '_filesmimetype' == $_GET['orderby']);
 		if( !$is_mimetype ) return;
 		if ( '_filesmimetype' == $_GET['orderby'] ){
-        	$query->set( 'meta_key', '_filesmimetype' );
-			$query->set( 'orderby', 'meta_value' );
+        	$query->set('meta_key',	'_filesmimetype');
+			$query->set('orderby',	'meta_value');
     	}
 	}
 	if( is_admin() ){
-		add_filter( 'manage_media_custom_column',		'media_files_tools_content',				10, 2	);
-		add_filter( 'manage_upload_columns',			'media_files_tools'									);
-		add_filter( 'manage_upload_sortable_columns',	'media_files_tools_content_sortable'				);
-		add_filter( 'wp_generate_attachment_metadata',	'media_files_tools_metadata_generate',		10, 2	);
-		add_action( 'pre_get_posts',					'media_files_tools_columns_do_sort'					);
-		add_action( 'pre_get_posts',					'media_files_tools_mime_columns_do_sort'			);
+		add_filter( 'manage_media_custom_column',		'media_files_tools_content', 10, 2);
+		add_filter( 'manage_upload_columns',			'media_files_tools' );
+		add_filter( 'manage_upload_sortable_columns',	'media_files_tools_content_sortable' );
+		add_filter( 'wp_generate_attachment_metadata',	'media_files_tools_metadata_generate', 10, 2);
+		add_action( 'pre_get_posts',					'media_files_tools_columns_do_sort' );
+		add_action( 'pre_get_posts',					'media_files_tools_mime_columns_do_sort' );
 	}
 
 	function media_files_tools_menu() {
-		$size_media = add_media_page( 'File Tools', 'File Tools', 'activate_plugins', 'wang_filesize', 'media_files_tools_wizard' );
+		$size_media = add_media_page( 'File Tools', 'File Tools', 'activate_plugins', 'wang_filesize', 'media_files_tools_wizard');
 	}
 	if( ! is_network_admin() ) add_action( 'admin_menu', 'media_files_tools_menu' );
 	function media_files_tools_wizard(){
 		global $wpdb;
-
-		if ( !current_user_can( 'level_10' ) )
-		die(__( 'Cheatin&#8217; uh?', 'media-file-tools' ) );
+		if ( !current_user_can('level_10') )
+		die(__('Cheatin&#8217; uh?', 'media-file-tools' ));
 		echo '<div class="wrap">';
 		echo '<h2>' . __( 'File Size Generator', 'media-file-tools' ) . '</h2>';
-		$action = isset( $_GET['action'] ) ? $_GET['action'] : 'show';
+		$action = isset($_GET['action']) ? $_GET['action'] : 'show';
 			switch ( $action ) {
 				case "size":
 					$attachments = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment'" ); ?>
@@ -188,22 +187,22 @@
 		}
 // Add Featured Image to post list
 
-	function media_files_tools_post_list( $columns ){
+	function media_files_tools_post_list( $columns ) {
     	$columns['featured_image'] = __( 'Featured Image', 'media-file-tools' );
 		return $columns;
 	}
-	add_filter( 'manage_posts_columns',			'media_files_tools_post_list'	);
-	add_filter( 'manage_page_posts_columns',	'media_files_tools_post_list'	);
+	add_filter('manage_posts_columns',		'media_files_tools_post_list'	);
+	add_filter('manage_page_posts_columns', 'media_files_tools_post_list'	);
 
-	function media_files_tools_post_content( $column_name, $post_ID ) {
-		if ( $column_name == 'featured_image' ){
+	function media_files_tools_post_content( $column_name, $post_ID) {
+		if ($column_name == 'featured_image') {
 			$post_thumbnail_id = get_post_thumbnail_id( $post_ID );
 			if ( $post_thumbnail_id ){
 				$media_files_tools_nonce	= wp_create_nonce( 'set_post_thumbnail-' . $post_ID );
 	    		$post_featured_image		= wp_get_attachment_image( $post_thumbnail_id, array( 80, 60 ), true );
 	    		$thumbnail_html				= wp_get_attachment_image( $post_thumbnail_id, 'post-thumbnail' );
 	    		echo $post_featured_image;
-	    		$upload_iframe_src			= esc_url( get_upload_iframe_src( 'image', $post_ID ) );
+	    		$upload_iframe_src			= esc_url( get_upload_iframe_src('image', $post_ID ) );
 				$set_thumbnail_link			= '<p class="hide-if-no-js"><div class="row-actions"><a title="' . esc_attr__( 'Change Featured Image', 'media-file-tools' ) . '" href="%1$s" id="set-post-thumbnail" class="media_files_tools_thickbox" data-thumbnail-id="%2$s">%3$s</a></div></p>';
 				$content = sprintf( $set_thumbnail_link, $upload_iframe_src . '&_wpnonce=' . $media_files_tools_nonce, $post_thumbnail_id, esc_html__( 'Change featured image', 'media-file-tools' ) );
 				echo $content;
@@ -221,9 +220,10 @@
 		}
 	}
 	function media_files_tools_load_js(){
+		//add_thickbox();
         wp_enqueue_media();
-		wp_enqueue_script( 'media_files_tools_load_js' , "/" . PLUGINDIR . '/media-files-tools/js/uploader.js' , array( 'jquery' ),'2.0' );
-        wp_enqueue_script( 'media_files_tools_load_js' );
+		wp_enqueue_script('media_files_tools_load_js' , "/" . PLUGINDIR . '/media-files-tools/js/uploader.js' , array('jquery'),'2.0');
+        wp_enqueue_script('media_files_tools_load_js');
         $translation_array = array(
 			'mediaManager'				=> __( 'Featured Image', 'media-file-tools' ),
 			'textButton'				=> __( 'Use as Featured Image', 'media-file-tools' ),
@@ -231,7 +231,7 @@
 			);
 		wp_localize_script( 'media_files_tools_load_js', 'media_files_localize', $translation_array );
 	}
-	function media_files_tools_update_featured_image(){
+	function media_files_tools_update_featured_image() {
 
         // Get the post id we are to attach the image to
         $post_ID = intval( $_POST['post_id'] );
@@ -248,14 +248,14 @@
 
         die();
     }
-    add_action( 'wp_ajax_media_files_tools_update_featured_image',	'media_files_tools_update_featured_image'			);
-	add_action('admin_print_scripts-edit.php',						'media_files_tools_load_js'							);
-	add_action('admin_enqueue_scripts',								'media_files_tools_load_js'							);
-	add_action('manage_posts_custom_column',						'media_files_tools_post_content',			10, 2	);
-	add_action('manage_page_posts_custom_column',					'media_files_tools_post_content',			10, 2	);
+    add_action( 'wp_ajax_media_files_tools_update_featured_image',	'media_files_tools_update_featured_image'	);
+	add_action('admin_print_scripts-edit.php',						'media_files_tools_load_js'					);
+	add_action('admin_enqueue_scripts',								'media_files_tools_load_js'					);
+	add_action('manage_posts_custom_column',						'media_files_tools_post_content', 10, 2		);
+	add_action('manage_page_posts_custom_column',					'media_files_tools_post_content', 10, 2		);
 
 
-	function media_files_tools_galley_image_link( $form_fields, $post ){
+	function media_files_tools_galley_image_link( $form_fields, $post ) {
 		$form_fields['media_files_tools_image_link_to'] = array(
 			'label' => __( 'Image Link to', 'media-file-tools' ),
 			'input' => 'text',
@@ -264,31 +264,29 @@
 		);
 		return $form_fields;
 	}
-	function media_files_tools_galley_image_link_save( $post, $attachment ){
-		if( isset( $attachment['media_files_tools_image_link_to'] ) ){
+	function media_files_tools_galley_image_link_save( $post, $attachment ) {
+		if( isset( $attachment['media_files_tools_image_link_to'] ) ) {
 			update_post_meta( $post['ID'], '_media_files_tools_image_link_to', $attachment['media_files_tools_image_link_to'] );
 		}
 		return $post;
 	}
-	add_filter( 'attachment_fields_to_edit', 'media_files_tools_galley_image_link',			null, 2		);
-	add_filter( 'attachment_fields_to_save', 'media_files_tools_galley_image_link_save',	null, 2		);
-	function media_files_tools_search_links( $content ){
+	add_filter( 'attachment_fields_to_edit', 'media_files_tools_galley_image_link', null, 2			);
+	add_filter( 'attachment_fields_to_save', 'media_files_tools_galley_image_link_save', null , 2	);
+	function media_files_tools_search_links($content){
 		global $post;
-
 		$links = array();
-		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'gallery' ) ){
+		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'gallery') ) {
 			$searchlinks =  '#(?:<a[^>]+?href=["|\'](?P<link_url>[^\s]+?)["|\'][^>]*?>\s*)?(?P<img_tag><img[^>]+?src=["|\'](?P<img_url>[^\s]+?)["|\'].*?>){1}(?:\s*</a>)?#is';
-			preg_match_all( $searchlinks, $content, $links );
-				foreach ( $links as $key => $unused ){
+			preg_match_all($searchlinks, $content, $links);
+				foreach ($links as $key => $unused) {
 					if ( is_numeric( $key ) && $key > 0 )
 						unset( $links[$key] );
 			} return $links;
 		} return array();
 	}
-	function media_files_tools_get_file_id( $image_url ){
+	function media_files_tools_get_file_id($image_url){
 		global $wpdb;
-
-		$attachment = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND guid='%s';", $image_url ) );
+		$attachment = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND guid='%s';", $image_url ));
         return $attachment;
 	}
 	function media_files_tools_get_src_full_maybe( $src ){
@@ -306,37 +304,43 @@
 		}
 		return $src;
 	}
-	function media_files_tools_change_links( $content ){
-		$links = media_files_tools_search_links( $content );
-		if( is_attachment() ) return;
-		foreach ( $links[img_url] as $link ) {
-			$fileID = media_files_tools_get_file_id( $link );
-			if( $fileID ){
-				$url = get_post_meta( $fileID, '_media_files_tools_image_link_to', true );
-				$attachment_page = get_attachment_link( $fileID );
-					if ( $url ){
-						$url = $url;
-					} else {
-						$url = $attachment_page;
-					}
-				} else {
-					$realsrc			= media_files_tools_get_src_full_maybe( $link );
-					$fileID				= media_files_tools_get_file_id( $realsrc );
-					$attachment_page	= get_attachment_link( $fileID );
-					$url				= get_post_meta( $fileID, '_media_files_tools_image_link_to', true );
-					if ( $url ){
-						$url = $url;
-					} else {
-						$url = $attachment_page;
-					}
-				}
-				$urlPrepare = preg_replace( '/\//', '\/', $attachment_page );
-				$urlSecondChange = preg_replace( '/(\?)\s*/', '\\?', $urlPrepare );
+	function media_files_tools_change_links($content){
+		global $post;
 
-				$pattern = '/' . $urlSecondChange . '/';
-				$content = preg_replace( $pattern, $url, $content );
-			}
+		if( has_shortcode( $post->post_content, 'gallery' ) ) {
+			$links = media_files_tools_search_links($content);
+			if( is_attachment() ) return;
+			foreach ( $links[img_url] as $link) {
+				$fileID = media_files_tools_get_file_id($link);
+				if( $fileID ){
+					$url = get_post_meta( $fileID, '_media_files_tools_image_link_to', true);
+					$attachment_page = get_attachment_link( $fileID );
+						if ( $url ){
+							$url = $url;
+						} else {
+							$url = $attachment_page;
+						}
+					} else {
+						$realsrc			= media_files_tools_get_src_full_maybe( $link );
+						$fileID				= media_files_tools_get_file_id( $realsrc );
+						$attachment_page	= get_attachment_link( $fileID );
+						$url				= get_post_meta( $fileID, '_media_files_tools_image_link_to', true);
+						if ( $url ){
+							$url = $url;
+						} else {
+							$url = $attachment_page;
+						}
+					}
+					$urlPrepare = preg_replace( '/\//', '\/', $attachment_page);
+					$urlSecondChange = preg_replace('/(\?)\s*/', '\\?', $urlPrepare);
+
+					$pattern = '/' . $urlSecondChange . '/';
+					$content = preg_replace( $pattern, $url, $content );
+				}
+				return $content;
+		} else {
 			return $content;
+		}
 	}
-	add_filter( 'the_content', 'media_files_tools_change_links', 9999999 );
+	add_filter( 'the_content', 'media_files_tools_change_links',9999999);
 ?>
