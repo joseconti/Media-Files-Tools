@@ -343,4 +343,46 @@
 		}
 	}
 	add_filter( 'the_content', 'media_files_tools_change_links',9999999);
+
+	if ( ! function_exists( 'media_files_tools_files_category' ) ) {
+		// Register Custom Taxonomy
+		function media_files_tools_files_category() {
+
+			$labels = array(
+				'name'                       => _x( 'Categories', 			'Taxonomy General Name',	'media-file-tools' ),
+				'singular_name'              => _x( 'Category',				'Taxonomy Singular Name',	'media-file-tools' ),
+				'menu_name'                  => __( 'Categories',										'media-file-tools' ),
+				'all_items'                  => __( 'All Categories',									'media-file-tools' ),
+				'parent_item'                => __( 'Parent Category',									'media-file-tools' ),
+				'parent_item_colon'          => __( 'Parent Category:',									'media-file-tools' ),
+				'new_item_name'              => __( 'New Category Name',								'media-file-tools' ),
+				'add_new_item'               => __( 'Add New Category',									'media-file-tools' ),
+				'edit_item'                  => __( 'Edit Category',									'media-file-tools' ),
+				'update_item'                => __( 'Update Category',									'media-file-tools' ),
+				'separate_items_with_commas' => __( 'Separate Categories with commas',					'media-file-tools' ),
+				'search_items'               => __( 'Search Categories',								'media-file-tools' ),
+				'add_or_remove_items'        => __( 'Add or remove Categories',							'media-file-tools' ),
+				'choose_from_most_used'      => __( 'Choose from the most used Categories', 			'media-file-tools' ),
+				'not_found'                  => __( 'Category Not Found', 								'media-file-tools' ),
+			);
+			$rewrite = array(
+				'slug'                       => 'file-category',
+				'with_front'                 => true,
+				'hierarchical'               => true,
+			);
+			$args = array(
+				'labels'                     => $labels,
+				'hierarchical'               => true,
+				'public'                     => true,
+				'show_ui'                    => true,
+				'show_admin_column'          => true,
+				'show_in_nav_menus'          => true,
+				'show_tagcloud'              => false,
+				'rewrite'                    => $rewrite,
+			);
+			register_taxonomy( 'media_files_tools_files_category', array( 'attachment' ), $args );
+		}
+	// Hook into the 'init' action
+	add_action( 'init', 'media_files_tools_files_category', 0 );
+	}
 ?>
